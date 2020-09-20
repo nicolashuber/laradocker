@@ -17,7 +17,6 @@ services:
     build:
       context: ./docker/nginx
     links:
-      - websocket
       - laravel
     ports:
       - 443:443
@@ -37,7 +36,6 @@ services:
     links:
       - db
       - redis
-      - memcache
 
   # Deployer
   deployer:
@@ -71,31 +69,12 @@ services:
       - ~/.docker_cache/composer:/tmp/cache:z
     working_dir: /app
 
-  # Node 10 with NPM/Yarn/npx
+  # Node with NPM/Yarn/npx
   node:
-    image: node:10
+    image: node
     volumes:
       - ./src:/app:z
     working_dir: /app
-
-  # memcache
-  memcache:
-    image: memcached
-    ports:
-      - 11211:11211
-
-  # websocket
-  websocket:
-    image: node:10
-    command: start
-    entrypoint: ["yarn", "run", "websocket"]
-    ports:
-      - 6001:6001
-    volumes:
-      - ./src:/app:z
-    working_dir: /app
-    links:
-      - redis
 
   # redis
   redis:

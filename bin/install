@@ -6,24 +6,50 @@ cd $( dirname $0 )/..
 ##
 # Variables
 #
-DEBUG=false
+DEBUG=true
 IS_NEW_PROJECT=false
+BUILD_DOCKER=false
 
 ##
 # Helpers functions
 #
 execute() {
     if [ "$DEBUG" = true ] ; then
-        "$@";
+        "$@"
     else
-        "$@" > /dev/null 2>&1;
+        "$@" > /dev/null 2>&1
 
-        retval=$?;
+        retval=$?
 
         if [ "$retval" -ne 0 ] ; then
-            error_message "Return code was not zero but $retval";
+            error_message "Return code was not zero but $retval"
         fi
     fi
+}
+
+print_help() {
+    printf 'Usage: %s [-a|--arg]\n' "$0"
+    printf "\t%s\n" "-b|--build: Build Docker images"
+}
+
+parse_commandline() {
+    while test $# -gt 0
+    do
+        _key="$1"
+        case "$_key" in
+            -b|--build)
+                BUILD_DOCKER=true
+                ;;
+            -h|--help)
+                print_help
+                exit 0
+                ;;
+            -h*)
+                print_help
+                exit 0
+        esac
+        shift
+    done
 }
 
 error_message() {
@@ -39,22 +65,22 @@ info_message() {
 }
 
 docker() {
-    execute docker-compose run --rm "$@";
+    execute docker-compose run --rm "$@"
 }
 
 docker_build() {
-    execute docker-compose build --pull;
+    execute docker-compose build --pull
 }
 
 prerequisites() {
     if [ "$EUID" -ne 0 ] ; then
-        error_message "Please run as root!";
+        error_message "Please run as root!"
         exit
     fi
 
     if ! command -v docker-compose &> /dev/null ; then
-        error_message "Docker Compose could not be found!";
-        exit;
+        error_message "Docker Compose could not be found!"
+        exit
     fi
 }
 
@@ -83,8 +109,10 @@ laravel_build() {
 }
 
 install() {
-    info_message "Building Docker..."
-    docker_build
+    if [ "$BUILD_DOCKER" = true ] ; then
+        info_message "Building Docker..."
+        docker_build
+    fi
 
     if [ ! -d src ]; then
         IS_NEW_PROJECT=true
@@ -99,7 +127,7 @@ install() {
     docker node yarn
 
     info_message "Building assets..."
-    docker node yarn prod
+    docker node yarn dev
 
     info_message "Building Laravel..."
     laravel_build
@@ -109,4 +137,5 @@ install() {
 # Main
 #
 prerequisites
+parse_commandline "$@"
 install
