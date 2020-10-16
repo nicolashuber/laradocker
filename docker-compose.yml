@@ -92,6 +92,14 @@ services:
     env_file:
       - ./docker/ngrok/ngrok.env
 
+  # phpcs
+  phpcs:
+    image: herloct/phpcs
+    command: ["--standard=PSR1,PSR2", "--ignore=*/vendor/,*/tests/,database/,app/bootstrap/,public/", "--colors", "."]
+    volumes:
+      - ./src:/app:z
+    working_dir: /app
+
 volumes:
   mysql_data:
     name: laradocker_mysql_data

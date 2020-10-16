@@ -2,6 +2,11 @@
 
 A Docker environment for developing Laravel applications.
 
+## Create a new project
+```
+docker-compose run --rm composer create-project --prefer-dist laravel/laravel .
+```
+
 ## Setup
 
 ```
@@ -16,6 +21,11 @@ docker-compose up server
 ## Artisan
 ```
 docker-compose run --rm php artisan
+```
+
+## PHP Code Sniffer
+```
+docker-compose run --rm phpcs
 ```
 
 ## Assets

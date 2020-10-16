@@ -6,7 +6,7 @@ cd $( dirname $0 )/..
 ##
 # Variables
 #
-DEBUG=true
+DEBUG=false
 IS_NEW_PROJECT=false
 BUILD_DOCKER=false
 
