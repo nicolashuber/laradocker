@@ -7,6 +7,15 @@ A Docker environment for developing Laravel applications.
 docker-compose run --rm composer create-project --prefer-dist laravel/laravel .
 ```
 
+After download the sources, edit the `.env` file:
+
+```
+DB_HOST=db
+DB_DATABASE=project
+DB_USERNAME=project
+DB_PASSWORD=project
+```
+
 ## Setup
 
 ```
