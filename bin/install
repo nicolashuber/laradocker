@@ -65,7 +65,7 @@ info_message() {
 }
 
 docker() {
-    execute docker-compose run --rm "$@"
+    execute docker-compose run --rm --user $(id -u):$(id -g) "$@"
 }
 
 docker_build() {
