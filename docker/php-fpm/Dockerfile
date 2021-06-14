@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.0.7-fpm
 
 RUN set -ex; \
         \
