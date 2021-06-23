@@ -16,8 +16,8 @@ RUN { \
 	echo 'xdebug.mode=develop,coverage,debug'; \
 	echo 'xdebug.discover_client_host=true'; \
 	echo 'xdebug.start_with_request=yes'; \
-	echo 'xdebug.client_port=${PHP_XDEBUG_REMOTE_PORT}'; \
-    echo 'xdebug.remote_host=${PHP_XDEBUG_REMOTE_HOST}'; \
+	echo 'xdebug.client_port=${PHP_XDEBUG_CLIENT_PORT}'; \
+    echo 'xdebug.client_host=${PHP_XDEBUG_DOCKER_HOST}'; \
 } > /usr/local/etc/php/conf.d/xdebug.ini
 
 WORKDIR /app
