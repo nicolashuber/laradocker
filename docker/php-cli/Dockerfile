@@ -5,7 +5,7 @@ RUN set -ex; \
         # Image build dependencies
         apt update; \
         # Install Xdebug and Redis extension
-        pecl install xdebug-2.9.8; \
+        pecl install xdebug; \
         pecl install redis; \
         docker-php-ext-enable xdebug redis; \
         # Install PDO extension
